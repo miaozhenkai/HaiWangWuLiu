@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.haiwang.logistics.mapper.WaybillMapper" >
+  <resultMap id="BaseResultMap" type="com.haiwang.logistics.pojo.Waybill" >
+    <id column="waybill_id" property="waybillId" jdbcType="VARCHAR" />
+    <result column="sender_name" property="senderName" jdbcType="VARCHAR" />
+    <result column="sender_phone" property="senderPhone" jdbcType="VARCHAR" />
+    <result column="sender_provinces" property="senderProvinces" jdbcType="VARCHAR" />
+    <result column="sender_address" property="senderAddress" jdbcType="VARCHAR" />
+    <result column="receiver_name" property="receiverName" jdbcType="VARCHAR" />
+    <result column="receiver_phone" property="receiverPhone" jdbcType="VARCHAR" />
+    <result column="receiver_provinces" property="receiverProvinces" jdbcType="VARCHAR" />
+    <result column="receiver_address" property="receiverAddress" jdbcType="VARCHAR" />
+    <result column="waybill_state" property="waybillState" jdbcType="VARCHAR" />
+    <result column="waybill_date" property="waybillDate" jdbcType="TIMESTAMP" />
+    <result column="waybill_price" property="waybillPrice" jdbcType="DOUBLE" />
+    <result column="waybill_payment" property="waybillPayment" jdbcType="VARCHAR" />
+    <result column="Item_type" property="itemType" jdbcType="VARCHAR" />
+    <result column="Item_weight" property="itemWeight" jdbcType="DOUBLE" />
+    <result column="staff1_id" property="staff1Id" jdbcType="INTEGER" />
+    <result column="staff2_id" property="staff2Id" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    waybill_id, sender_name, sender_phone, sender_provinces, sender_address, receiver_name,
+    receiver_phone, receiver_provinces, receiver_address, waybill_state, waybill_date,
+    waybill_price, waybill_payment, Item_type, Item_weight, staff1_id, staff2_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.haiwang.logistics.pojo.WaybillExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from waybill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from waybill
+    where waybill_id = #{waybillId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from waybill
+    where waybill_id = #{waybillId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.haiwang.logistics.pojo.WaybillExample" >
+    delete from waybill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.haiwang.logistics.pojo.Waybill" >
+    insert into waybill (waybill_id, sender_name, sender_phone, 
+      sender_provinces, sender_address, receiver_name, 
+      receiver_phone, receiver_provinces, receiver_address, 
+      waybill_state, waybill_date, waybill_price, 
+      waybill_payment, Item_type, Item_weight, 
+      staff1_id, staff2_id)
+    values (#{waybillId,jdbcType=VARCHAR}, #{senderName,jdbcType=VARCHAR}, #{senderPhone,jdbcType=VARCHAR}, 
+      #{senderProvinces,jdbcType=VARCHAR}, #{senderAddress,jdbcType=VARCHAR}, #{receiverName,jdbcType=VARCHAR}, 
+      #{receiverPhone,jdbcType=VARCHAR}, #{receiverProvinces,jdbcType=VARCHAR}, #{receiverAddress,jdbcType=VARCHAR}, 
+      #{waybillState,jdbcType=VARCHAR}, #{waybillDate,jdbcType=TIMESTAMP}, #{waybillPrice,jdbcType=DOUBLE}, 
+      #{waybillPayment,jdbcType=VARCHAR}, #{itemType,jdbcType=VARCHAR}, #{itemWeight,jdbcType=DOUBLE}, 
+      #{staff1Id,jdbcType=INTEGER}, #{staff2Id,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.haiwang.logistics.pojo.Waybill" >
+    insert into waybill
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="waybillId != null" >
+        waybill_id,
+      </if>
+      <if test="senderName != null" >
+        sender_name,
+      </if>
+      <if test="senderPhone != null" >
+        sender_phone,
+      </if>
+      <if test="senderProvinces != null" >
+        sender_provinces,
+      </if>
+      <if test="senderAddress != null" >
+        sender_address,
+      </if>
+      <if test="receiverName != null" >
+        receiver_name,
+      </if>
+      <if test="receiverPhone != null" >
+        receiver_phone,
+      </if>
+      <if test="receiverProvinces != null" >
+        receiver_provinces,
+      </if>
+      <if test="receiverAddress != null" >
+        receiver_address,
+      </if>
+      <if test="waybillState != null" >
+        waybill_state,
+      </if>
+      <if test="waybillDate != null" >
+        waybill_date,
+      </if>
+      <if test="waybillPrice != null" >
+        waybill_price,
+      </if>
+      <if test="waybillPayment != null" >
+        waybill_payment,
+      </if>
+      <if test="itemType != null" >
+        Item_type,
+      </if>
+      <if test="itemWeight != null" >
+        Item_weight,
+      </if>
+      <if test="staff1Id != null" >
+        staff1_id,
+      </if>
+      <if test="staff2Id != null" >
+        staff2_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="waybillId != null" >
+        #{waybillId,jdbcType=VARCHAR},
+      </if>
+      <if test="senderName != null" >
+        #{senderName,jdbcType=VARCHAR},
+      </if>
+      <if test="senderPhone != null" >
+        #{senderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="senderProvinces != null" >
+        #{senderProvinces,jdbcType=VARCHAR},
+      </if>
+      <if test="senderAddress != null" >
+        #{senderAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverName != null" >
+        #{receiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverPhone != null" >
+        #{receiverPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverProvinces != null" >
+        #{receiverProvinces,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverAddress != null" >
+        #{receiverAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="waybillState != null" >
+        #{waybillState,jdbcType=VARCHAR},
+      </if>
+      <if test="waybillDate != null" >
+        #{waybillDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="waybillPrice != null" >
+        #{waybillPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="waybillPayment != null" >
+        #{waybillPayment,jdbcType=VARCHAR},
+      </if>
+      <if test="itemType != null" >
+        #{itemType,jdbcType=VARCHAR},
+      </if>
+      <if test="itemWeight != null" >
+        #{itemWeight,jdbcType=DOUBLE},
+      </if>
+      <if test="staff1Id != null" >
+        #{staff1Id,jdbcType=INTEGER},
+      </if>
+      <if test="staff2Id != null" >
+        #{staff2Id,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.haiwang.logistics.pojo.WaybillExample" resultType="java.lang.Integer" >
+    select count(*) from waybill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update waybill
+    <set >
+      <if test="record.waybillId != null" >
+        waybill_id = #{record.waybillId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.senderName != null" >
+        sender_name = #{record.senderName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.senderPhone != null" >
+        sender_phone = #{record.senderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.senderProvinces != null" >
+        sender_provinces = #{record.senderProvinces,jdbcType=VARCHAR},
+      </if>
+      <if test="record.senderAddress != null" >
+        sender_address = #{record.senderAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiverName != null" >
+        receiver_name = #{record.receiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiverPhone != null" >
+        receiver_phone = #{record.receiverPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiverProvinces != null" >
+        receiver_provinces = #{record.receiverProvinces,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiverAddress != null" >
+        receiver_address = #{record.receiverAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.waybillState != null" >
+        waybill_state = #{record.waybillState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.waybillDate != null" >
+        waybill_date = #{record.waybillDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.waybillPrice != null" >
+        waybill_price = #{record.waybillPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.waybillPayment != null" >
+        waybill_payment = #{record.waybillPayment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemType != null" >
+        Item_type = #{record.itemType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemWeight != null" >
+        Item_weight = #{record.itemWeight,jdbcType=DOUBLE},
+      </if>
+      <if test="record.staff1Id != null" >
+        staff1_id = #{record.staff1Id,jdbcType=INTEGER},
+      </if>
+      <if test="record.staff2Id != null" >
+        staff2_id = #{record.staff2Id,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update waybill
+    set waybill_id = #{record.waybillId,jdbcType=VARCHAR},
+      sender_name = #{record.senderName,jdbcType=VARCHAR},
+      sender_phone = #{record.senderPhone,jdbcType=VARCHAR},
+      sender_provinces = #{record.senderProvinces,jdbcType=VARCHAR},
+      sender_address = #{record.senderAddress,jdbcType=VARCHAR},
+      receiver_name = #{record.receiverName,jdbcType=VARCHAR},
+      receiver_phone = #{record.receiverPhone,jdbcType=VARCHAR},
+      receiver_provinces = #{record.receiverProvinces,jdbcType=VARCHAR},
+      receiver_address = #{record.receiverAddress,jdbcType=VARCHAR},
+      waybill_state = #{record.waybillState,jdbcType=VARCHAR},
+      waybill_date = #{record.waybillDate,jdbcType=TIMESTAMP},
+      waybill_price = #{record.waybillPrice,jdbcType=DOUBLE},
+      waybill_payment = #{record.waybillPayment,jdbcType=VARCHAR},
+      Item_type = #{record.itemType,jdbcType=VARCHAR},
+      Item_weight = #{record.itemWeight,jdbcType=DOUBLE},
+      staff1_id = #{record.staff1Id,jdbcType=INTEGER},
+      staff2_id = #{record.staff2Id,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.haiwang.logistics.pojo.Waybill" >
+    update waybill
+    <set >
+      <if test="senderName != null" >
+        sender_name = #{senderName,jdbcType=VARCHAR},
+      </if>
+      <if test="senderPhone != null" >
+        sender_phone = #{senderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="senderProvinces != null" >
+        sender_provinces = #{senderProvinces,jdbcType=VARCHAR},
+      </if>
+      <if test="senderAddress != null" >
+        sender_address = #{senderAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverName != null" >
+        receiver_name = #{receiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverPhone != null" >
+        receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverProvinces != null" >
+        receiver_provinces = #{receiverProvinces,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverAddress != null" >
+        receiver_address = #{receiverAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="waybillState != null" >
+        waybill_state = #{waybillState,jdbcType=VARCHAR},
+      </if>
+      <if test="waybillDate != null" >
+        waybill_date = #{waybillDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="waybillPrice != null" >
+        waybill_price = #{waybillPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="waybillPayment != null" >
+        waybill_payment = #{waybillPayment,jdbcType=VARCHAR},
+      </if>
+      <if test="itemType != null" >
+        Item_type = #{itemType,jdbcType=VARCHAR},
+      </if>
+      <if test="itemWeight != null" >
+        Item_weight = #{itemWeight,jdbcType=DOUBLE},
+      </if>
+      <if test="staff1Id != null" >
+        staff1_id = #{staff1Id,jdbcType=INTEGER},
+      </if>
+      <if test="staff2Id != null" >
+        staff2_id = #{staff2Id,jdbcType=INTEGER},
+      </if>
+    </set>
+    where waybill_id = #{waybillId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.haiwang.logistics.pojo.Waybill" >
+    update waybill
+    set sender_name = #{senderName,jdbcType=VARCHAR},
+      sender_phone = #{senderPhone,jdbcType=VARCHAR},
+      sender_provinces = #{senderProvinces,jdbcType=VARCHAR},
+      sender_address = #{senderAddress,jdbcType=VARCHAR},
+      receiver_name = #{receiverName,jdbcType=VARCHAR},
+      receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
+      receiver_provinces = #{receiverProvinces,jdbcType=VARCHAR},
+      receiver_address = #{receiverAddress,jdbcType=VARCHAR},
+      waybill_state = #{waybillState,jdbcType=VARCHAR},
+      waybill_date = #{waybillDate,jdbcType=TIMESTAMP},
+      waybill_price = #{waybillPrice,jdbcType=DOUBLE},
+      waybill_payment = #{waybillPayment,jdbcType=VARCHAR},
+      Item_type = #{itemType,jdbcType=VARCHAR},
+      Item_weight = #{itemWeight,jdbcType=DOUBLE},
+      staff1_id = #{staff1Id,jdbcType=INTEGER},
+      staff2_id = #{staff2Id,jdbcType=INTEGER}
+    where waybill_id = #{waybillId,jdbcType=VARCHAR}
+  </update>
+  <!--1.查所有-->
+  <resultMap id="waybillmap" type="com.haiwang.logistics.pojo.Waybill">
+    <id column="waybill_id" property="waybillId" jdbcType="VARCHAR" />
+    <result column="sender_name" property="senderName" jdbcType="VARCHAR" />
+    <result column="sender_phone" property="senderPhone" jdbcType="VARCHAR" />
+    <result column="sender_provinces" property="senderProvinces" jdbcType="VARCHAR" />
+    <result column="sender_address" property="senderAddress" jdbcType="VARCHAR" />
+    <result column="receiver_name" property="receiverName" jdbcType="VARCHAR" />
+    <result column="receiver_phone" property="receiverPhone" jdbcType="VARCHAR" />
+    <result column="receiver_provinces" property="receiverProvinces" jdbcType="VARCHAR" />
+    <result column="receiver_address" property="receiverAddress" jdbcType="VARCHAR" />
+    <result column="waybill_state" property="waybillState" jdbcType="VARCHAR" />
+    <result column="waybill_date" property="waybillDate" jdbcType="TIMESTAMP" />
+    <result column="waybill_price" property="waybillPrice" jdbcType="VARCHAR" />
+    <result column="waybill_payment" property="waybillPayment" jdbcType="VARCHAR" />
+    <result column="Item_type" property="itemType" jdbcType="VARCHAR" />
+    <result column="Item_weight" property="itemWeight" jdbcType="VARCHAR" />
+    <result column="staff1_id" property="staff1Id" jdbcType="INTEGER" />
+    <result column="staff2_id" property="staff2Id" jdbcType="INTEGER" />
+    <!--多对一-->
+    <!--property 指定关联对象的名称-->
+    <association property="staff1" javaType="com.haiwang.logistics.pojo.Staff">
+      <id property="staffId" column="staff1_id" jdbcType="INTEGER"></id>
+      <result property="staffName" column="staff1_name" jdbcType="VARCHAR"></result>
+    </association>
+    <association property="staff2" javaType="com.haiwang.logistics.pojo.Staff">
+      <id property="staffId" column="staff2_id" jdbcType="INTEGER"></id>
+      <result property="staffName" column="staff2_name" jdbcType="VARCHAR"></result>
+    </association>
+  </resultMap>
+  <select id="getAllWaybillByExample" resultMap="waybillmap" parameterType="com.haiwang.logistics.pojo.WaybillExample">
+    SELECT waybill_id, sender_name, sender_phone,sender_provinces,sender_address, receiver_name, receiver_phone,
+    receiver_provinces,receiver_address,waybill_state, waybill_date, waybill_price, waybill_payment, Item_type, Item_weight,
+    s1.staff_id staff1_id,s1.staff_name staff1_name,s2.staff_id staff2_id,s2.staff_name staff2_name
+    FROM waybill w
+    LEFT JOIN staff s1 on s1.staff_id=w.staff1_id
+    LEFT JOIN staff s2 on s2.staff_id=w.staff2_id
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

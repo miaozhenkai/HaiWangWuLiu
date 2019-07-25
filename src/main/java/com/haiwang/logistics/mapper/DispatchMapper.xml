@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.haiwang.logistics.mapper.DispatchMapper" >
+  <resultMap id="BaseResultMap" type="com.haiwang.logistics.pojo.Dispatch" >
+    <id column="dispatch_id" property="dispatchId" jdbcType="INTEGER" />
+    <result column="staff_id" property="staffId" jdbcType="INTEGER" />
+    <result column="car_num" property="carNum" jdbcType="VARCHAR" />
+    <result column="waybill_id" property="waybillId" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="dispatchmap" type="com.haiwang.logistics.pojo.Dispatch">
+    <id column="dispatch_id" property="dispatchId"/>
+    <association property="staff" javaType="com.haiwang.logistics.pojo.Staff">
+      <id column="staff_id" property="staffId"></id>
+      <result column="staff_name" property="staffName"/>
+      <result column="staff_sex" property="staffSex"/>
+      <result column="staff_birthday" property="staffBirthday" />
+      <result column="staff_phone" property="staffPhone"/>
+      <result column="staff_password" property="staffPassword"/>
+    </association>
+    <association property="car" javaType="com.haiwang.logistics.pojo.Car">
+      <id column="car_num" property="carNum" ></id>
+      <result column="car_type" property="carType"></result>
+      <result column="car_load" property="carLoad"></result>
+    </association>
+    <association property="waybill" javaType="com.haiwang.logistics.pojo.Waybill">
+      <id column="waybill_id" property="waybillId"></id>
+      <result column="sender_name" property="senderName"></result>
+      <result column="sender_phone" property="senderPhone"></result>
+      <result column="sender_address" property="senderAddress"></result>
+      <result column="receiver_name" property="receiverName"></result>
+      <result column="receiver_phone" property="receiverPhone"></result>
+      <result column="receiver_address" property="receiverAddress"></result>
+      <result column="waybill_state" property="waybillState"></result>
+      <result column="waybill_date" property="waybillDate"></result>
+    </association>
+  </resultMap>
+
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    dispatch_id, staff_id, car_num, waybill_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.haiwang.logistics.pojo.DispatchExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dispatch
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from dispatch
+    where dispatch_id = #{dispatchId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from dispatch
+    where dispatch_id = #{dispatchId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.haiwang.logistics.pojo.DispatchExample" >
+    delete from dispatch
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.haiwang.logistics.pojo.Dispatch" >
+    insert into dispatch (dispatch_id, staff_id, car_num, 
+      waybill_id)
+    values (#{dispatchId,jdbcType=INTEGER}, #{staffId,jdbcType=INTEGER}, #{carNum,jdbcType=VARCHAR}, 
+      #{waybillId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.haiwang.logistics.pojo.Dispatch" >
+    insert into dispatch
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dispatchId != null" >
+        dispatch_id,
+      </if>
+      <if test="staffId != null" >
+        staff_id,
+      </if>
+      <if test="carNum != null" >
+        car_num,
+      </if>
+      <if test="waybillId != null" >
+        waybill_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dispatchId != null" >
+        #{dispatchId,jdbcType=INTEGER},
+      </if>
+      <if test="staffId != null" >
+        #{staffId,jdbcType=INTEGER},
+      </if>
+      <if test="carNum != null" >
+        #{carNum,jdbcType=VARCHAR},
+      </if>
+      <if test="waybillId != null" >
+        #{waybillId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.haiwang.logistics.pojo.DispatchExample" resultType="java.lang.Integer" >
+    select count(*) from dispatch
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update dispatch
+    <set >
+      <if test="record.dispatchId != null" >
+        dispatch_id = #{record.dispatchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.staffId != null" >
+        staff_id = #{record.staffId,jdbcType=INTEGER},
+      </if>
+      <if test="record.carNum != null" >
+        car_num = #{record.carNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.waybillId != null" >
+        waybill_id = #{record.waybillId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update dispatch
+    set dispatch_id = #{record.dispatchId,jdbcType=INTEGER},
+      staff_id = #{record.staffId,jdbcType=INTEGER},
+      car_num = #{record.carNum,jdbcType=VARCHAR},
+      waybill_id = #{record.waybillId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.haiwang.logistics.pojo.Dispatch" >
+    update dispatch
+    <set >
+      <if test="staffId != null" >
+        staff_id = #{staffId,jdbcType=INTEGER},
+      </if>
+      <if test="carNum != null" >
+        car_num = #{carNum,jdbcType=VARCHAR},
+      </if>
+      <if test="waybillId != null" >
+        waybill_id = #{waybillId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dispatch_id = #{dispatchId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.haiwang.logistics.pojo.Dispatch" >
+    update dispatch
+    set staff_id = #{staffId,jdbcType=INTEGER},
+      car_num = #{carNum,jdbcType=VARCHAR},
+      waybill_id = #{waybillId,jdbcType=VARCHAR}
+    where dispatch_id = #{dispatchId,jdbcType=INTEGER}
+  </update>
+  <select id="getDispatchAllByExample" parameterType="com.haiwang.logistics.pojo.Dispatch" resultMap="dispatchmap">
+select dispatch_id,d.staff_id staff_id, staff_name, staff_sex, staff_birthday, staff_phone, staff_password, department_id, firm_id,
+d.car_num car_num,car_type,car_load,
+d.waybill_id waybill_id, sender_name, sender_phone, sender_address, receiver_name, receiver_phone, receiver_address, waybill_state, waybill_date
+from dispatch d
+inner join staff s on d.staff_id = s.staff_id
+inner join car c2 on d.car_num = c2.car_num
+inner join waybill w on d.waybill_id = w.waybill_id
+  </select>
+</mapper>

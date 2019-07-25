@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.haiwang.logistics.mapper.RouteMapper" >
+  <resultMap id="BaseResultMap" type="com.haiwang.logistics.pojo.Route" >
+    <id column="route_id" property="routeId" jdbcType="INTEGER" />
+    <result column="prvoinces1" property="prvoinces1" jdbcType="VARCHAR" />
+    <result column="prvoinces2" property="prvoinces2" jdbcType="VARCHAR" />
+    <result column="route_price" property="routePrice" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    route_id, prvoinces1, prvoinces2, route_price
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.haiwang.logistics.pojo.RouteExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from route
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from route
+    where route_id = #{routeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from route
+    where route_id = #{routeId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.haiwang.logistics.pojo.RouteExample" >
+    delete from route
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.haiwang.logistics.pojo.Route" >
+    insert into route (route_id, prvoinces1, prvoinces2, 
+      route_price)
+    values (#{routeId,jdbcType=INTEGER}, #{prvoinces1,jdbcType=VARCHAR}, #{prvoinces2,jdbcType=VARCHAR}, 
+      #{routePrice,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.haiwang.logistics.pojo.Route" >
+    insert into route
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="routeId != null" >
+        route_id,
+      </if>
+      <if test="prvoinces1 != null" >
+        prvoinces1,
+      </if>
+      <if test="prvoinces2 != null" >
+        prvoinces2,
+      </if>
+      <if test="routePrice != null" >
+        route_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="routeId != null" >
+        #{routeId,jdbcType=INTEGER},
+      </if>
+      <if test="prvoinces1 != null" >
+        #{prvoinces1,jdbcType=VARCHAR},
+      </if>
+      <if test="prvoinces2 != null" >
+        #{prvoinces2,jdbcType=VARCHAR},
+      </if>
+      <if test="routePrice != null" >
+        #{routePrice,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.haiwang.logistics.pojo.RouteExample" resultType="java.lang.Integer" >
+    select count(*) from route
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update route
+    <set >
+      <if test="record.routeId != null" >
+        route_id = #{record.routeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.prvoinces1 != null" >
+        prvoinces1 = #{record.prvoinces1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prvoinces2 != null" >
+        prvoinces2 = #{record.prvoinces2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.routePrice != null" >
+        route_price = #{record.routePrice,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update route
+    set route_id = #{record.routeId,jdbcType=INTEGER},
+      prvoinces1 = #{record.prvoinces1,jdbcType=VARCHAR},
+      prvoinces2 = #{record.prvoinces2,jdbcType=VARCHAR},
+      route_price = #{record.routePrice,jdbcType=DOUBLE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.haiwang.logistics.pojo.Route" >
+    update route
+    <set >
+      <if test="prvoinces1 != null" >
+        prvoinces1 = #{prvoinces1,jdbcType=VARCHAR},
+      </if>
+      <if test="prvoinces2 != null" >
+        prvoinces2 = #{prvoinces2,jdbcType=VARCHAR},
+      </if>
+      <if test="routePrice != null" >
+        route_price = #{routePrice,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where route_id = #{routeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.haiwang.logistics.pojo.Route" >
+    update route
+    set prvoinces1 = #{prvoinces1,jdbcType=VARCHAR},
+      prvoinces2 = #{prvoinces2,jdbcType=VARCHAR},
+      route_price = #{routePrice,jdbcType=DOUBLE}
+    where route_id = #{routeId,jdbcType=INTEGER}
+  </update>
+</mapper>
